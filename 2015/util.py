@@ -1,4 +1,4 @@
-def read_string(infile):
+def read_string(infile: str):
     """
     Read the content of a text file and returns it as a string.
 

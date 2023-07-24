@@ -21,7 +21,7 @@ To what floor do the instructions take Santa?
 """
 
 
-def find_floor(x):
+def find_floor(x: str):
     """
     Compute the target floor by adding up the parentheses in the input string;
     :param x: string with the parentheses defining the target floor
@@ -35,7 +35,7 @@ def find_floor(x):
     return floor
 
 
-def first_basement(x):
+def first_basement(x: str):
     """
     Now, given the same instructions, find the position of the first character that causes him to enter the basement
     (floor -1). The first character in the instructions has position 1, the second character has position 2, and so on.
