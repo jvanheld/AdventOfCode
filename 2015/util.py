@@ -8,3 +8,15 @@ def read_string(infile: str):
     with open(infile) as f:
         res = f.read()
     return res
+
+
+def read_list(infile: str):
+    """
+    Read the content of a text file and returns it as a list of strings (one string per line).
+
+    :param infile: path of the input text file
+    :return: list of strings
+    """
+    with open(infile) as f:
+        res = f.readlines()
+    return res
