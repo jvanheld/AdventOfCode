@@ -1,11 +1,19 @@
+"""
+Solutions for the challenges of the 2015 session of Advent Of Code.
+
+https://adventofcode.com/2015
+
+"""
+
+from day_01_2015 import find_floor, first_basement
 from util import read_string
-from day_2015_01 import find_floor, first_basement
 
 
 def day01():
     """
     Find the floor for Santa Claus
     """
+    print("Day 01 challenge")
     floorstring = read_string('2015/data/2015_01.txt')
     floor = find_floor(floorstring)
     print(f"Floor for day 01: {floor}")
