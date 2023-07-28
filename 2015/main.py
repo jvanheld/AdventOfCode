@@ -14,7 +14,7 @@ def day01():
     """
     Find the floor for Santa Claus
     """
-    floorstring = read_string('2015/data/2015_01.txt')
+    floorstring = read_string('2015/data/data_2015_01.txt')
     floor = find_floor(floorstring)
     print(f"Floor for day 01: {floor}")
     basement = first_basement(floorstring)
@@ -25,7 +25,7 @@ def day02():
     """
     Compute wrapping paper surface
     """
-    dimensions = read_list('2015/data/2015_02.txt')
+    dimensions = read_list('2015/data/data_2015_02.txt')
     total_surface, total_ribbon = calc_paper_and_ribbon(dimensions)
     print(f"Total wrapping paper surface: {total_surface}")
     print(f"Total ribbon length: {total_ribbon}")
