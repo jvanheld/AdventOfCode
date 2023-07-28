@@ -7,6 +7,7 @@ https://adventofcode.com/2015
 
 from day_01_2015 import find_floor, first_basement
 from day_02_2015 import calc_paper_and_ribbon
+from day_03_2015 import deliver_presents
 from util import read_string, read_list
 
 
@@ -31,12 +32,25 @@ def day02():
     print(f"Total ribbon length: {total_ribbon}")
 
 
+def day03():
+    """
+    Deliver presents in an infinite array of houses
+    """
+    move_instructions = read_string('2015/data/data_2015_03.txt')
+    # print(f"Move instructions: {move_instructions}")
+    presents_per_house = deliver_presents(move_instructions)
+    print(f"Number of houses with at least one present: {len(presents_per_house)}")
+
+
 def main():
     print("Day 01")
     day01()
 
     print("\nDay 02")
     day02()
+
+    print("\nDay 03")
+    day03()
 
 
 if __name__ == '__main__':
