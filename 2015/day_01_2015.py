@@ -27,11 +27,11 @@ def find_floor(x: str):
     :param x: string with the parentheses defining the target floor
     :return: integer number indicating the target floor
     """
-    print(x)
+    # print(x)
     up = x.count("(")
     down = x.count(")")
     floor = up - down
-    print(f"{up} steps up + {down} steps down = floor {floor}")
+    # print(f"{up} steps up + {down} steps down = floor {floor}")
     return floor
 
 
