@@ -55,8 +55,10 @@ def day03():
 
 def day04():
     puzzle_input = 'iwrupvqb'
-    print("Hash code\t", find_suffix_number(puzzle_input, 5))
-    print("Hash code\t", find_suffix_number(puzzle_input, 6))
+    print("Day 04 - Part One")
+    print('\t', find_suffix_number(puzzle_input, 5))
+    print("Day 04 - Part Two")
+    print('\t', find_suffix_number(puzzle_input, 6))
 
 
 def main():

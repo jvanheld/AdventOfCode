@@ -59,7 +59,6 @@ def one_move(x: int, y: int, char: str):
         Exception(f"Invalid character in move instructions: {char}")
     return x, y
 
-
 def deliver_presents(move_instructions: str):
     """
     Compute the number of presents assigned to each house as a function of Santa's moves.
