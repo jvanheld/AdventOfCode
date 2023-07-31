@@ -8,6 +8,7 @@ https://adventofcode.com/2015
 from day_01_2015 import find_floor, first_basement
 from day_02_2015 import calc_paper_and_ribbon
 from day_03_2015 import deliver_presents, deliver_presents_with_robot
+from day_04_2015 import find_suffix_number
 from util import read_string, read_list
 
 
@@ -52,10 +53,17 @@ def day03():
     print(f"\tNumber of houses with at least one present (Santa + Robo-Santa): {len(presents_per_house)}")
 
 
+def day04():
+    puzzle_input = 'iwrupvqb'
+    print("Hash code\t", find_suffix_number(puzzle_input, 5))
+    print("Hash code\t", find_suffix_number(puzzle_input, 6))
+
+
 def main():
     day01()
     day02()
     day03()
+    day04()
 
 
 if __name__ == '__main__':
