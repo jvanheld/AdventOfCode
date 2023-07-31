@@ -5,6 +5,8 @@ https://adventofcode.com/2015
 
 """
 
+import cProfile
+
 from day_01_2015 import find_floor, first_basement
 from day_02_2015 import calc_paper_and_ribbon
 from day_03_2015 import deliver_presents, deliver_presents_with_robot
@@ -55,7 +57,7 @@ def day03():
 
 def day04():
     puzzle_input = 'iwrupvqb'
-    print("Day 04 - Part One")
+    print("\nDay 04 - Part One")
     print('\t', find_suffix_number(puzzle_input, 5))
     print("Day 04 - Part Two")
     print('\t', find_suffix_number(puzzle_input, 6))
@@ -69,6 +71,6 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    cProfile.run('main()')
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
