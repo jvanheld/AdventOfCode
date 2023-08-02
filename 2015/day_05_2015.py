@@ -36,12 +36,7 @@ def check_vowels(my_string: str):
     vowels = "aeiou"
     vowel_counts = list(map(my_string.lower().count, vowels))
     rule1_check = sum(vowel_counts) >= 3
-    # vowel_counts = list(filter(lambda x: (x > 0), vowel_counts))  ## Only keep count of present vowels
-    # if (len(vowel_counts) < 3):
-    #     rule1_check = False
-    # else:
-    #     rule1_check = True
-    print(f'\t{my_string}\tRule 1\t{rule1_check}\t{sum(vowel_counts)}')
+    # print(f'\t{my_string}\tRule 1\t{rule1_check}\t{sum(vowel_counts)}')
     return rule1_check
 
 
@@ -60,11 +55,10 @@ def check_double_letter(my_string: str):
             rule2_check = True
             break
         previous_letter = letter
-    if rule2_check:
-        print(f'\t{my_string}\tRule 2\t{rule2_check}\t{previous_letter + letter}')
-    else:
-        print(f'\t{my_string}\tRule 2\t{rule2_check}')
-
+    # if rule2_check:
+    #     print(f'\t{my_string}\tRule 2\t{rule2_check}\t{previous_letter + letter}')
+    # else:
+    #     print(f'\t{my_string}\tRule 2\t{rule2_check}')
     return rule2_check
 
 
@@ -77,7 +71,7 @@ def check_fobidden_strings(my_string: str, forbidden_strings=['ab', 'cd', 'pq', 
     :return: True/False
     """
     forbidden_counts = list(map(my_string.lower().count, forbidden_strings))
-    print(f'\t{my_string}\tRule 3\t{sum(forbidden_counts) == 0}\t{sum(forbidden_counts)}\t{forbidden_counts}')
+    # print(f'\t{my_string}\tRule 3\t{sum(forbidden_counts) == 0}\t{sum(forbidden_counts)}\t{forbidden_counts}')
     return sum(forbidden_counts) == 0
 
 
@@ -94,10 +88,10 @@ def check_rules(my_string: str):
     :param my_string: input string on which the rules should be checked
     :return: a tuple with the list of non-matched rule numbers
     """
-    print(f'\n{my_string}')
+    # print(f'\n{my_string}')
     rule_checks = (check_vowels(my_string),
                    check_double_letter(my_string),
                    check_fobidden_strings(my_string))
     count_checks = sum(rule_checks)
-    print(f'\tValid rules: {count_checks}')
+    # print(f'\tValid rules: {count_checks}')
     return count_checks == 3
