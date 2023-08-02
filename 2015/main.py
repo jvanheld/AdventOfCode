@@ -11,6 +11,7 @@ from day_01_2015 import find_floor, first_basement
 from day_02_2015 import calc_paper_and_ribbon
 from day_03_2015 import deliver_presents, deliver_presents_with_robot
 from day_04_2015 import find_suffix_number
+from day_05_2015 import check_rules
 from util import read_string, read_list
 
 
@@ -63,14 +64,26 @@ def day04():
     print('\t', find_suffix_number(puzzle_input, 6))
 
 
+def day05():
+    print("\nDay 05 - Part One")
+    all_test_strings = read_list('2015/data/data_2015_05.txt')
+    all_rule_checks = list(map(check_rules, all_test_strings))
+    # print(f'\tRule checks\t{all_rule_checks}')
+    print(f'\tnice strings: {sum(all_rule_checks)} among {len(all_test_strings)}')
+
+    # print(strings)
+
+
 def main():
-    day01()
-    day02()
-    day03()
-    day04()
+    cProfile.run('day01()')
+    cProfile.run('day02()')
+    cProfile.run('day03()')
+    cProfile.run('day04()')
+    cProfile.run('day05()')
+    print("\n\nAll days done\n\n")
 
 
 if __name__ == '__main__':
-    cProfile.run('main()')
+    main()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
