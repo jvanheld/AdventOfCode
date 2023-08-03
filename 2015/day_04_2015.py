@@ -40,12 +40,11 @@ def find_suffix_number(puzzle_input: str, leading_zeros: int):
     string, and hexadecimal hash code
 
     """
-    number = 0  # Initialise the suffix number
-    hex_hash = 'abc123'  # initialise the hex_hash
-    while hex_hash[0:leading_zeros] != '0' * leading_zeros:
+    number = 1  # Initialise the suffix number
+    hex_hash = '1' * leading_zeros  # initialise the hex_hash
+    hash_prefix = '0' * leading_zeros
+    while hex_hash[0:leading_zeros] != hash_prefix:
+        # while not hex_hash.startswith(hash_prefix):
         number += 1
-        cat_input = puzzle_input + str(number)
-        hex_hash = hashlib.md5(cat_input.encode()).hexdigest()
-
-    #    print(puzzle_input, hex_hash)
-    return puzzle_input, number, cat_input, hex_hash
+        hex_hash = hashlib.md5(f'{puzzle_input}{number}'.encode()).hexdigest()
+    return puzzle_input, number, hex_hash
