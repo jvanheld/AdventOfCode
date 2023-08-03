@@ -63,11 +63,7 @@ def check_vowels(my_string: str):
     :param my_string: input string
     :return: True/False
     """
-    vowels = "aeiou"
-    vowel_counts = list(map(my_string.lower().count, vowels))
-    rule1_check = sum(vowel_counts) >= 3
-    # print(f'\t{my_string}\tRule 1\t{rule1_check}\t{sum(vowel_counts)}')
-    return rule1_check
+    return sum(list(map(my_string.lower().count, "aeiou"))) >= 3
 
 
 def check_double_letter(my_string: str):
@@ -78,18 +74,10 @@ def check_double_letter(my_string: str):
     :param my_string: input strung
     :return: True/False
     """
-    rule2_check = False
-    previous_letter = ''
-    for letter in my_string:
-        if letter == previous_letter:
-            rule2_check = True
-            break
-        previous_letter = letter
-    # if rule2_check:
-    #     print(f'\t{my_string}\tRule 2\t{rule2_check}\t{previous_letter + letter}')
-    # else:
-    #     print(f'\t{my_string}\tRule 2\t{rule2_check}')
-    return rule2_check
+    for i in range(len(my_string) - 1):
+        if my_string[i] == my_string[i + 1]:
+            return True
+    return False
 
 
 def check_fobidden_strings(my_string: str, forbidden_strings=['ab', 'cd', 'pq', 'xy']):
@@ -100,9 +88,7 @@ def check_fobidden_strings(my_string: str, forbidden_strings=['ab', 'cd', 'pq', 
     :param forbidden_strings: a list of forbudden strings
     :return: True/False
     """
-    forbidden_counts = list(map(my_string.lower().count, forbidden_strings))
-    # print(f'\t{my_string}\tRule 3\t{sum(forbidden_counts) == 0}\t{sum(forbidden_counts)}\t{forbidden_counts}')
-    return sum(forbidden_counts) == 0
+    return sum(list(map(my_string.lower().count, forbidden_strings))) == 0
 
 
 def check_rules_part_one(my_string: str):
@@ -118,12 +104,9 @@ def check_rules_part_one(my_string: str):
     :return: True (all rules validated) or False (at least one invalid rule)
     """
     # print(f'\n{my_string}')
-    rule_checks = (check_vowels(my_string),
-                   check_double_letter(my_string),
-                   check_fobidden_strings(my_string))
-    count_checks = sum(rule_checks)
-    # print(f'\tValid rules: {count_checks}')
-    return count_checks == 3
+    return sum([check_vowels(my_string),
+                check_double_letter(my_string),
+                check_fobidden_strings(my_string)]) == 3
 
 
 def check_double_pair(my_string: str):
@@ -134,21 +117,15 @@ def check_double_pair(my_string: str):
     :param my_string: input string
     :return: True / False
     """
-    # print(f'\t{my_string}',  end = '')
-    validated = False
     first_instance = {}
-    for i in range(0, len(my_string)):
+    for i in range(len(my_string)):
         two_letters = my_string[i:(i + 2)]
-        # print(f'\t{two_letters}')
         if two_letters in first_instance:
             if i - first_instance[two_letters] > 1:
-                validated = True
-                # print(f'\t{two_letters}\t{first_instance[two_letters]}\t{i}', end = '')
-                break
+                return True
         else:
             first_instance[two_letters] = i
-    # print()
-    return validated
+    return False
 
 
 def check_spaced_repeat(my_string: str):
@@ -190,4 +167,6 @@ def check_rules_part_two(my_string: str):
                    check_spaced_repeat(my_string))
     count_checks = sum(rule_checks)
     # print(f'\tValid rules: {count_checks}')
+    # if count_checks == 2:
+    #    print(my_string, end='')
     return count_checks == 2
