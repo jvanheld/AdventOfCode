@@ -97,6 +97,28 @@ def rectangle_set_values(matrix, left, top, right, bottom, value=1):
     return matrix
 
 
+def rectangle_increase_values(matrix, left, top, right, bottom, increase=1):
+    """
+    Increase the values of the cells of the input matrix that are included in a given rectangle.
+    A negative increase value will perform a subtraction, with a minimum of 0.
+
+    :param matrix: input matrix
+    :param left: left coordinate of the rectangle. Must be smaller than or equal to the right.
+    :param top: rectangle top. Must be smaller than or equal to the bottom.
+    :param right: rectangle right
+    :param bottom: rectangle bottom
+    :param increase: increase value
+    :return: the matrix with the modified values
+    """
+    # print(f'\tset\t{value} from {left},{top} to {right},{bottom}')
+    for i in list(range(top, bottom + 1)):
+        for j in list(range(left, right + 1)):
+            matrix[i][j] = matrix[i][j] + increase
+            if matrix[i][j] < 0:
+                matrix[i][j] = 0
+    return matrix
+
+
 def rectangle_toggle_values(matrix, left, top, right, bottom):
     """
     Toggle values (1 <-> 0) for the cells of the input matrix included in a given rectangle.
@@ -140,3 +162,13 @@ def day06():
     print("\tNumber of on lights: ", sum(map(sum, matrix)))
 
     print("\nDay 06 - Part Two")
+    matrix = init_matrix(1000, 1000, values['off'])
+    increase = {'on': 1, 'off': -1}
+    for instruction in instructions:
+        instr = re.split('[ ,]', instruction.strip())  # [2, 3, 5, 6]
+        left, top, right, bottom = [int(instr[i]) for i in (-5, -4, -2, -1)]
+        if instr[0] == 'toggle':
+            matrix = rectangle_increase_values(matrix, left, top, right, bottom, 2)
+        elif instr[0] == 'turn':
+            matrix = rectangle_increase_values(matrix, left, top, right, bottom, increase[instr[1]])
+    print("\tTotal brightness: ", sum(map(sum, matrix)))
