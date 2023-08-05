@@ -23,3 +23,4 @@ class Test(TestCase):
         m = rectangle_toggle_values(m, 0, 0, 2, 2)
         print('\ntest_rectangle_toggle_values')
         print_matrix(m, sep='')
+        self.assertEqual(8, sum(map(sum, m)))

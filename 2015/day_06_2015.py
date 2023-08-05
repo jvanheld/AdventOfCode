@@ -24,7 +24,33 @@ For example:
 - turn off 499,499 through 500,500 would turn off (or leave off) the middle four lights.
 
 After following the instructions, how many lights are lit?
+
+--- Part Two ---
+
+You just finish implementing your winning light pattern when you realize you mistranslated Santa's message from
+Ancient Nordic Elvish.
+
+The light grid you bought actually has individual brightness controls; each light can have a brightness of zero or
+more. The lights all start at zero.
+
+The phrase turn on actually means that you should increase the brightness of those lights by 1.
+
+The phrase turn off actually means that you should decrease the brightness of those lights by 1, to a minimum of zero.
+
+The phrase toggle actually means that you should increase the brightness of those lights by 2.
+
+What is the total brightness of all lights combined after following Santa's instructions?
+
+For example:
+
+turn on 0,0 through 0,0 would increase the total brightness by 1.
+toggle 0,0 through 999,999 would increase the total brightness by 2000000.
+
 """
+
+import re
+
+from util import read_list
 
 
 def init_matrix(nrow, ncol, fill_value=0):
@@ -64,6 +90,7 @@ def rectangle_set_values(matrix, left, top, right, bottom, value=1):
     :param value: value to set
     :return: the matrix with the modified values
     """
+    # print(f'\tset\t{value} from {left},{top} to {right},{bottom}')
     for i in list(range(top, bottom + 1)):
         for j in list(range(left, right + 1)):
             matrix[i][j] = value
@@ -82,7 +109,34 @@ def rectangle_toggle_values(matrix, left, top, right, bottom):
     :param value: value to set
     :return: the matrix with the modified values
     """
+    # print(f'\ttoggle\tfrom {left},{top} to {right},{bottom}')
+    # [matrix[i][j] = 1 - matrix[i][j] for i in list(range(top, bottom + 1)) for j in list(range(left, right + 1))]
     for i in list(range(top, bottom + 1)):
         for j in list(range(left, right + 1)):
-            matrix[i][j] = int(not (matrix[i][j]))
+            matrix[i][j] = 1 - matrix[i][j]
     return matrix
+
+
+def day06():
+    # Dictionary with the values associated to "on" and "off"
+    values = {'on': 1, 'off': 0}
+
+    # Create a 1000 x 1000 matrix with 0 values
+    matrix = init_matrix(1000, 1000, values['off'])
+
+    # Read instruction file
+    instructions = read_list('2015/data/data_2015_06.txt')
+    #    print(instructions)
+
+    # Apply the instructions
+    print("\nDay 06 - Part One")
+    for instruction in instructions:
+        instr = re.split('[ ,]', instruction.strip())  # [2, 3, 5, 6]
+        left, top, right, bottom = [int(instr[i]) for i in (-5, -4, -2, -1)]
+        if instr[0] == 'toggle':
+            matrix = rectangle_toggle_values(matrix, left, top, right, bottom)
+        elif instr[0] == 'turn':
+            matrix = rectangle_set_values(matrix, left, top, right, bottom, values[instr[1]])
+    print("\tNumber of on lights: ", sum(map(sum, matrix)))
+
+    print("\nDay 06 - Part Two")
