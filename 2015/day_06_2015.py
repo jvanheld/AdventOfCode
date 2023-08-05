@@ -64,7 +64,25 @@ def rectangle_set_values(matrix, left, top, right, bottom, value=1):
     :param value: value to set
     :return: the matrix with the modified values
     """
-    for i in list(range(top, bottom)):
-        for j in list(range(left, right)):
+    for i in list(range(top, bottom + 1)):
+        for j in list(range(left, right + 1)):
             matrix[i][j] = value
+    return matrix
+
+
+def rectangle_toggle_values(matrix, left, top, right, bottom):
+    """
+    Toggle values (1 <-> 0) for the cells of the input matrix included in a given rectangle.
+
+    :param matrix: input matrix
+    :param left: left coordinate of the rectangle. Must be smaller than or equal to the right.
+    :param top: rectangle top. Must be smaller than or equal to the bottom.
+    :param right: rectangle right
+    :param bottom: rectangle bottom
+    :param value: value to set
+    :return: the matrix with the modified values
+    """
+    for i in list(range(top, bottom + 1)):
+        for j in list(range(left, right + 1)):
+            matrix[i][j] = int(not (matrix[i][j]))
     return matrix
