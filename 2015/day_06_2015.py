@@ -25,3 +25,46 @@ For example:
 
 After following the instructions, how many lights are lit?
 """
+
+
+def init_matrix(nrow, ncol, fill_value=0):
+    """
+    Create a nrow x ncol matrix filled with the specified value.
+
+    :param nrow: number of rows
+    :param ncol: number of columns
+    :param fill_value: value to instantiate each cell of the matrix
+    :return: a 2D array of the specified dimensions filled in with the fill value.
+    """
+    return [[fill_value for j in range(ncol)] for i in range(nrow)]
+
+
+def print_matrix(matrix, sep='\t'):
+    """
+    Print the content of a matrix
+    :param matrix: matrix to print
+    :param sep: column separator
+    :return:
+    """
+    for i in range(len(matrix)):
+        for j in range(len(matrix[i]) - 1):
+            print(matrix[i][j], end=sep)
+        print(matrix[i][-1])
+
+
+def rectangle_set_values(matrix, left, top, right, bottom, value=1):
+    """
+    Set to a given value the cells of the input matrix that are included in a given rectangle.
+
+    :param matrix: input matrix
+    :param left: left coordinate of the rectangle. Must be smaller than or equal to the right.
+    :param top: rectangle top. Must be smaller than or equal to the bottom.
+    :param right: rectangle right
+    :param bottom: rectangle bottom
+    :param value: value to set
+    :return: the matrix with the modified values
+    """
+    for i in list(range(top, bottom)):
+        for j in list(range(left, right)):
+            matrix[i][j] = value
+    return matrix
