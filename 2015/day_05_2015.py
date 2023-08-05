@@ -55,6 +55,8 @@ How many strings are nice under these new rules?
 
 """
 
+from util import read_list
+
 
 def check_vowels(my_string: str):
     """
@@ -170,3 +172,16 @@ def check_rules_part_two(my_string: str):
     # if count_checks == 2:
     #    print(my_string, end='')
     return count_checks == 2
+
+
+def day05():
+    # Read puzzle input
+    all_test_strings = read_list('2015/data/data_2015_05.txt')
+
+    print("\nDay 05 - Part One")
+    all_rule_checks_part_one = list(map(check_rules_part_one, all_test_strings))
+    print(f'\tnice strings: {sum(all_rule_checks_part_one)} among {len(all_test_strings)}')
+
+    print("\nDay 05 - Part Two")
+    all_rule_checks_part_two = list(map(check_rules_part_two, all_test_strings))
+    print(f'\tnice strings: {sum(all_rule_checks_part_two)} among {len(all_test_strings)}')

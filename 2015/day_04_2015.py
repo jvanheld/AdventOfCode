@@ -48,3 +48,11 @@ def find_suffix_number(puzzle_input: str, leading_zeros: int):
         number += 1
         hex_hash = hashlib.md5(f'{puzzle_input}{number}'.encode()).hexdigest()
     return puzzle_input, number, hex_hash
+
+
+def day04():
+    puzzle_input = 'iwrupvqb'
+    print("\nDay 04 - Part One")
+    print('\t', find_suffix_number(puzzle_input, 5))
+    print("Day 04 - Part Two")
+    print('\t', find_suffix_number(puzzle_input, 6))
