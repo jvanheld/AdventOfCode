@@ -61,14 +61,8 @@ import networkx as nx
 from util import read_list
 
 
-# import pandas
-# import networkit as nk
-# import matplotlib.pyplot as plt
-
-
 def read_network(infile):
     G = nx.DiGraph()
-    # network = dict()
     instructions = read_list(infile)
 
     # Create nodes
@@ -82,87 +76,40 @@ def read_network(infile):
                    signal=math.nan,
                    operator='')
         print(f'\t{node_id}\t{G.nodes[node_id]["info"]}')
-        # network[node_id] = dict()
-        # network[node_id]['info'] = node_info
 
     # Parse node info, create edges and assign signal
     for node_id in G.nodes():
         node_info = G.nodes[node_id]['info']
-        # print(f'\t{node}\t{info}\t{info.isnumeric()}')
-        # network[node_id]['signal'] = math.nan
         instr = node_info.split(sep=' ')
         if len(instr) == 1:
             if node_info.isnumeric():
                 # Wire signal
                 G.nodes[node_id]['signal'] = int(node_info)
-                # network[node_id]['signal'] = int(node_info)
             else:
                 # Single node input
                 G.add_edge(instr[0], node_id)
-                # network[node_id]['input'] = instr[0]
         elif instr[1] in ("AND", "OR"):
             G.nodes[node_id]['operator'] = instr[1]
-            # network[node_id]['operator'] = instr[1]
-            # network[node_id]['input'] = []
             if instr[0].isnumeric():
                 G.nodes[node_id]['input_signal'] = instr[0]
-                # network[node_id]['input_signal'] = instr[0]
             else:
                 G.add_edge(instr[0], node_id)
-                # network[node_id]['input'].append(instr[0])
             if instr[2].isnumeric():
                 G.nodes[node_id]['input_signal'] = instr[2]
-                # network[node_id]['input_signal'] = instr[2]
             else:
                 G.add_edge(instr[2], node_id)
-                # network[node_id]['input'].append(instr[2])
         elif instr[0] == "NOT":
             G.nodes[node_id]['operator'] = instr[0]
             G.add_edge(instr[1], node_id)
-            # network[node_id]['operator'] = instr[0]
-            # network[node_id]['input'] = instr[1]
         elif instr[1] in ('RSHIFT', 'LSHIFT'):
             G.add_edge(instr[0], node_id)
             G.nodes[node_id]['operator'] = instr[1]
             G.nodes[node_id]['shift'] = instr[2]
-            # network[node_id]['input'] = instr[0]
-            # network[node_id]['operator'] = instr[1]
-            # network[node_id]['shift'] = instr[2]
-
-    # print(G.nodes)
-    # print(G.nodes['a'])
     return G
-    # return network
 
-
-# def draw_network(network):
-#     # Add nodes
-#     G = nx.DiGraph()
-#     for node in network.keys():
-#         # print(f'\tadding node\t{node}')
-#         G.add_node(node)
-#
-#     # Add edges
-#     for node in network.keys():
-#         # print(network[node])
-#         if network[node].get('input'):
-#             for innode in network[node]['input']:
-#                 # print(f'Adding edge from {innode} to {node}')
-#                 G.add_edge(innode, node)
-#
-#     # I don't knpw why this does not work
-#     print("Viewing the network")
-#     nx.draw_networkx(G)
-#     plt.savefig("2015/figures/day07_wires.png", )
-#     plt.show()
-#     return(G)
 
 
 def day07():
-    # network = read_network('2015/data/data_2015_07.txt')
-    # pprint.pprint(network)
-    # G = draw_network(network)
-
     # Read the network from puzzle input file
     G = read_network('2015/data/data_2015_07.txt')
     print("Viewing the network")
