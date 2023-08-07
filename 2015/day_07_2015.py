@@ -63,6 +63,7 @@ import math
 import matplotlib.pyplot as plt
 import networkx as nx
 from bitstring import BitArray
+from tqdm import tqdm
 
 from util import read_list
 
@@ -145,67 +146,66 @@ def calc_signal(G):
     solved_nodes, unsolved_nodes = init_solved_nodes(G)
     iteration = 0
     max_iteration = len(unsolved_nodes) + 1
-    while len(unsolved_nodes) > 0:
-        if iteration > max_iteration:
-            print(f"Could not solve the graph after {iteration} iterations")
-            break
-        iteration += 1
+    with tqdm() as pbar:
+        while len(unsolved_nodes) > 0:
+            if iteration > max_iteration:
+                print(f"Could not solve the graph after {iteration} iterations")
+                break
+            iteration += 1
 
-        # print(f'\tIteration: {iteration}\tSolved nodes: {len(solved_nodes)}\tUnsolved nodes: {len(unsolved_nodes)}')
+            # Detect solvable nodes
+            solvable_nodes = set()
+            for node_id in unsolved_nodes:
+                predecessors = set(G.predecessors(node_id))  # predecessor nodes in the graph
+                solved_predecessors = predecessors & solved_nodes
+                if (predecessors == solved_predecessors):
+                    solvable_nodes.add(node_id)
+            # print(f'\t\tSolvable nodes: {len(solvable_nodes)}')
 
-        # Detect solvable nodes
-        solvable_nodes = set()
-        for node_id in unsolved_nodes:
-            predecessors = set(G.predecessors(node_id))  # predecessor nodes in the graph
-            solved_predecessors = predecessors & solved_nodes
-            if (predecessors == solved_predecessors):
-                solvable_nodes.add(node_id)
-        # print(f'\t\tSolvable nodes: {len(solvable_nodes)}')
+            # Solve solvable nodes
+            for node_id in solvable_nodes:
+                node = G.nodes[node_id]
+                pred = list(G.predecessors(node_id))
+                # print(f'\t\t\tsolving node\t{node_id}\t{node["info"]}')
 
-        # Solve solvable nodes
-        for node_id in solvable_nodes:
-            node = G.nodes[node_id]
-            pred = list(G.predecessors(node_id))
-            # print(f'\t\t\tsolving node\t{node_id}\t{node["info"]}')
-
-            # Right shift
-            if node['operator'] == "NOT":
-                node['signal_bits'] = BitArray(uint=G.nodes[pred[0]]['signal'], length=16)
-                node['signal_bits'].invert()
-                node['signal'] = node['signal_bits'].uint
-
-            elif node['operator'] == "RSHIFT":
-                node['signal_bits'] = shift_bits(G.nodes[pred[0]]['signal_bits'], node['shift'])
-                node['signal'] = node['signal_bits'].uint
-
-            # Left shift
-            elif node['operator'] == "LSHIFT":
-                node['signal_bits'] = shift_bits(G.nodes[pred[0]]['signal_bits'], -node['shift'])
-                node['signal'] = node['signal_bits'].uint
-
-            # OR
-            elif node['operator'] == "OR":
-                node['signal_bits'] = G.nodes[pred[0]]['signal_bits'] | G.nodes[pred[1]]['signal_bits']
-                node['signal'] = node['signal_bits'].uint
-
-            elif node['operator'] == "AND":
-                # print(node)
-                if len(pred) == 2:
-                    node['signal_bits'] = G.nodes[pred[0]]['signal_bits'] & G.nodes[pred[1]]['signal_bits']
-                    node['signal'] = node['signal_bits'].uint
-                else:
-                    node['signal_bits'] = G.nodes[pred[0]]['signal_bits'] & BitArray(uint=node['input_signal'],
-                                                                                     length=16)
+                # Right shift
+                if node['operator'] == "NOT":
+                    node['signal_bits'] = BitArray(uint=G.nodes[pred[0]]['signal'], length=16)
+                    node['signal_bits'].invert()
                     node['signal'] = node['signal_bits'].uint
 
-            elif node['operator'] == "":
-                node['signal'] = G.nodes[pred[0]]['signal']
-                node['signal_bits'] = G.nodes[pred[0]]['signal_bits']
+                elif node['operator'] == "RSHIFT":
+                    node['signal_bits'] = shift_bits(G.nodes[pred[0]]['signal_bits'], node['shift'])
+                    node['signal'] = node['signal_bits'].uint
 
-            solved_nodes.add(node_id)
-            unsolved_nodes.remove(node_id)
+                # Left shift
+                elif node['operator'] == "LSHIFT":
+                    node['signal_bits'] = shift_bits(G.nodes[pred[0]]['signal_bits'], -node['shift'])
+                    node['signal'] = node['signal_bits'].uint
 
-        # print(f'\tAfter iteration: {iteration}\tSolved nodes: {len(solved_nodes)}\tUnsolved nodes: {len(unsolved_nodes)}')
+                # OR
+                elif node['operator'] == "OR":
+                    node['signal_bits'] = G.nodes[pred[0]]['signal_bits'] | G.nodes[pred[1]]['signal_bits']
+                    node['signal'] = node['signal_bits'].uint
+
+                elif node['operator'] == "AND":
+                    # print(node)
+                    if len(pred) == 2:
+                        node['signal_bits'] = G.nodes[pred[0]]['signal_bits'] & G.nodes[pred[1]]['signal_bits']
+                        node['signal'] = node['signal_bits'].uint
+                    else:
+                        node['signal_bits'] = G.nodes[pred[0]]['signal_bits'] & BitArray(uint=node['input_signal'],
+                                                                                         length=16)
+                        node['signal'] = node['signal_bits'].uint
+
+                elif node['operator'] == "":
+                    node['signal'] = G.nodes[pred[0]]['signal']
+                    node['signal_bits'] = G.nodes[pred[0]]['signal_bits']
+
+                solved_nodes.add(node_id)
+                unsolved_nodes.remove(node_id)
+            pbar.update()
+            # print(f'\tAfter iteration: {iteration}\tSolved nodes: {len(solved_nodes)}\tUnsolved nodes: {len(unsolved_nodes)}')
 
     return G
 
