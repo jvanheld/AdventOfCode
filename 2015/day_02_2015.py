@@ -49,6 +49,7 @@ should they order?
 https://adventofcode.com/2015/day/2
 
 """
+from tqdm import tqdm
 
 from util import read_list
 
@@ -93,7 +94,7 @@ def calc_paper_and_ribbon(dimension_list: [str]):
     """
     total_surface = 0
     total_ribbon = 0
-    for dimensions in dimension_list:
+    for dimensions in tqdm(dimension_list):
         l, w, h = map(int, dimensions.split("x"))
         total_surface += calc_wrapping_paper_surface(l, w, h)
         total_ribbon += calc_one_ribbon_length(l, w, h)
@@ -104,9 +105,9 @@ def day02():
     """
     Compute wrapping paper surface
     """
+    print("\nDay 02 - Part One")
     dimensions = read_list('2015/data/data_2015_02.txt')
     total_surface, total_ribbon = calc_paper_and_ribbon(dimensions)
-    print("\nDay 02 - Part One")
     print(f"\tTotal wrapping paper surface: {total_surface}")
     print("Day 02 - Part Two")
     print(f"\tTotal ribbon length: {total_ribbon}")
