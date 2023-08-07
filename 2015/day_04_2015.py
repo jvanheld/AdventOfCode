@@ -27,6 +27,8 @@ Now find one that starts with six zeroes.
 """
 import hashlib
 
+from tqdm import tqdm
+
 
 def find_suffix_number(puzzle_input: str, leading_zeros: int):
     """
@@ -43,10 +45,12 @@ def find_suffix_number(puzzle_input: str, leading_zeros: int):
     number = 1  # Initialise the suffix number
     hex_hash = '1' * leading_zeros  # initialise the hex_hash
     hash_prefix = '0' * leading_zeros
-    while hex_hash[0:leading_zeros] != hash_prefix:
-        # while not hex_hash.startswith(hash_prefix):
-        number += 1
-        hex_hash = hashlib.md5(f'{puzzle_input}{number}'.encode()).hexdigest()
+    with tqdm() as pbar:
+        while hex_hash[0:leading_zeros] != hash_prefix:
+            # while not hex_hash.startswith(hash_prefix):
+            number += 1
+            hex_hash = hashlib.md5(f'{puzzle_input}{number}'.encode()).hexdigest()
+            pbar.update()
     return puzzle_input, number, hex_hash
 
 
