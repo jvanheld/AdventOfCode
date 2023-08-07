@@ -36,6 +36,7 @@ For example:
 ^v^v^v^v^v now delivers presents to 11 houses, with Santa going one direction and Robo-Santa going the other.
 
 """
+from tqdm import tqdm
 
 from util import read_string
 
@@ -75,7 +76,7 @@ def deliver_presents(move_instructions: str):
     char = "."
     presents_per_house[(x, y)] = 1
     # print(f'\t{char}\t{x}\t{y}\t{presents_per_house[(x, y)]}')
-    for char in move_instructions:
+    for char in tqdm(move_instructions):
         x, y = one_move(x, y, char)
         presents_per_house[(x, y)] = presents_per_house.get((x, y), 0) + 1
         # print(f'\t{char}\t{x}\t{y}\t{presents_per_house[(x, y)]}')
@@ -117,13 +118,13 @@ def deliver_presents_with_robot(move_instructions: str):
     # print(f'\t{char}\t{0}\t{0}\t{presents_per_house[(0, 0)]}')
 
     # print("\nSantas' trajectory")
-    for char in instructions_santa:
+    for char in tqdm(instructions_santa):
         x_santa, y_santa = one_move(x_santa, y_santa, char)
         presents_per_house[(x_santa, y_santa)] = presents_per_house.get((x_santa, y_santa), 0) + 1
         # print(f'\t{char}\t{x_santa}\t{y_santa}\t{presents_per_house[(x_santa, y_santa)]}')
 
     # print("\nRobo-Santa's trajectory")
-    for char in instructions_robot:
+    for char in tqdm(instructions_robot):
         x_robot, y_robot = one_move(x_robot, y_robot, char)
         presents_per_house[(x_robot, y_robot)] = presents_per_house.get((x_robot, y_robot), 0) + 1
         # print(f'\t{char}\t{x_robot}\t{y_robot}\t{presents_per_house[(x_robot, y_robot)]}')
