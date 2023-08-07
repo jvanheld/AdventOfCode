@@ -50,6 +50,8 @@ toggle 0,0 through 999,999 would increase the total brightness by 2000000.
 
 import re
 
+import numpy as np
+from tqdm import tqdm
 from util import read_list
 
 
@@ -62,13 +64,13 @@ def init_matrix(nrow, ncol, fill_value=0):
     :param fill_value: value to instantiate each cell of the matrix
     :return: a 2D array of the specified dimensions filled in with the fill value.
     """
-    return [[fill_value for j in range(ncol)] for i in range(nrow)]
+    return [[fill_value for _ in range(ncol)] for _ in range(nrow)]
 
 
 def print_matrix(matrix, sep='\t'):
     """
     Print the content of a matrix
-    :param matrix: matrix to print
+    :param matrix: the matrix to print
     :param sep: column separator
     :return:
     """
@@ -110,7 +112,6 @@ def rectangle_increase_values(matrix, left, top, right, bottom, increase=1):
     :param increase: increase value
     :return: the matrix with the modified values
     """
-    # print(f'\tset\t{value} from {left},{top} to {right},{bottom}')
     for i in list(range(top, bottom + 1)):
         for j in list(range(left, right + 1)):
             matrix[i][j] = matrix[i][j] + increase
@@ -128,11 +129,8 @@ def rectangle_toggle_values(matrix, left, top, right, bottom):
     :param top: rectangle top. Must be smaller than or equal to the bottom.
     :param right: rectangle right
     :param bottom: rectangle bottom
-    :param value: value to set
     :return: the matrix with the modified values
     """
-    # print(f'\ttoggle\tfrom {left},{top} to {right},{bottom}')
-    # [matrix[i][j] = 1 - matrix[i][j] for i in list(range(top, bottom + 1)) for j in list(range(left, right + 1))]
     for i in list(range(top, bottom + 1)):
         for j in list(range(left, right + 1)):
             matrix[i][j] = 1 - matrix[i][j]
@@ -145,6 +143,7 @@ def day06():
 
     # Create a 1000 x 1000 matrix with 0 values
     matrix = init_matrix(1000, 1000, values['off'])
+    # matrix = np.array([[0] * 1000] * 1000, dtype="int")
 
     # Read instruction file
     instructions = read_list('2015/data/data_2015_06.txt')
@@ -152,7 +151,7 @@ def day06():
 
     # Apply the instructions
     print("\nDay 06 - Part One")
-    for instruction in instructions:
+    for instruction in tqdm(instructions):
         instr = re.split('[ ,]', instruction.strip())  # [2, 3, 5, 6]
         left, top, right, bottom = [int(instr[i]) for i in (-5, -4, -2, -1)]
         if instr[0] == 'toggle':
@@ -164,7 +163,7 @@ def day06():
     print("\nDay 06 - Part Two")
     matrix = init_matrix(1000, 1000, values['off'])
     increase = {'on': 1, 'off': -1}
-    for instruction in instructions:
+    for instruction in tqdm(instructions):
         instr = re.split('[ ,]', instruction.strip())  # [2, 3, 5, 6]
         left, top, right, bottom = [int(instr[i]) for i in (-5, -4, -2, -1)]
         if instr[0] == 'toggle':
