@@ -69,7 +69,7 @@ from util import read_list
 
 
 def read_network(infile):
-    G = nx.DiGraph()
+    g = nx.DiGraph()
     instructions = read_list(infile)
 
     # Create nodes
@@ -78,45 +78,45 @@ def read_network(infile):
         node_info, node_id = instruction.split(' -> ')
 
         # Create a node in the network for the current node
-        G.add_node(node_id,
+        g.add_node(node_id,
                    info=node_info,
                    signal=math.nan,
                    operator='')
         # print(f'\t{node_id}\t{G.nodes[node_id]["info"]}')
 
     # Parse node info, create edges and assign signal
-    for node_id in G.nodes():
-        node_info = G.nodes[node_id]['info']
+    for node_id in g.nodes():
+        node_info = g.nodes[node_id]['info']
         instr = node_info.split(sep=' ')
         if len(instr) == 1:
             if node_info.isnumeric():
                 # Wire signal
-                G.nodes[node_id]['signal'] = int(node_info)
-                G.nodes[node_id]['signal_bits'] = BitArray(uint=G.nodes[node_id]['signal'], length=16)
+                g.nodes[node_id]['signal'] = int(node_info)
+                g.nodes[node_id]['signal_bits'] = BitArray(uint=g.nodes[node_id]['signal'], length=16)
 
             else:
                 # Node signal equals signal from a single other node
-                G.add_edge(instr[0], node_id)
+                g.add_edge(instr[0], node_id)
 
         elif instr[1] in ("AND", "OR"):
-            G.nodes[node_id]['operator'] = instr[1]
+            g.nodes[node_id]['operator'] = instr[1]
             if instr[0].isnumeric():
-                G.nodes[node_id]['input_signal'] = int(instr[0])
+                g.nodes[node_id]['input_signal'] = int(instr[0])
             else:
-                G.add_edge(instr[0], node_id)
+                g.add_edge(instr[0], node_id)
             if instr[2].isnumeric():
-                G.nodes[node_id]['input_signal'] = int(instr[2])
+                g.nodes[node_id]['input_signal'] = int(instr[2])
             else:
-                G.add_edge(instr[2], node_id)
+                g.add_edge(instr[2], node_id)
         elif instr[0] == "NOT":
-            G.nodes[node_id]['operator'] = instr[0]
-            G.add_edge(instr[1], node_id)
+            g.nodes[node_id]['operator'] = instr[0]
+            g.add_edge(instr[1], node_id)
         elif instr[1] in ('RSHIFT', 'LSHIFT'):
-            G.add_edge(instr[0], node_id)
-            G.nodes[node_id]['operator'] = instr[1]
-            G.nodes[node_id]['shift'] = int(instr[2])
+            g.add_edge(instr[0], node_id)
+            g.nodes[node_id]['operator'] = instr[1]
+            g.nodes[node_id]['shift'] = int(instr[2])
 
-    return G
+    return g
 
 
 def init_solved_nodes(G):
