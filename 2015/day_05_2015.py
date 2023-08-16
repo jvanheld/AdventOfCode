@@ -178,7 +178,7 @@ def day05():
     # Read puzzle input
     all_test_strings = read_list('2015/data/data_2015_05.txt')
 
-    print("\nDay 05 - Part One")
+    print("\n\nDay 05 - Part One")
     all_rule_checks_part_one = list(map(check_rules_part_one, all_test_strings))
     print(f'\tnice strings: {sum(all_rule_checks_part_one)} among {len(all_test_strings)}')
 

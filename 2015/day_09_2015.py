@@ -103,9 +103,9 @@ def day09():
     # print(distances)
 
     ncities = len(cities)
-    print(f'\tCities: {ncities}')
+    # print(f'\tCities: {ncities}')
     nperm = factorial(ncities)
-    print(f'\tPermutations: {nperm}')
+    #print(f'\tPermutations: {nperm}')
     if nperm > max_perm:
         print(f"Number of permutation exceeeds {max_perm}")
         exit()
@@ -124,8 +124,8 @@ def day09():
             longest_dist = l
 
         # print(f'\t{i}\t{l}\t{perm}')
-    print("Day 09 - Part One")
+    print("\n\nDay 09 - Part One")
     print(f"\tShortest distance: {shortest_dist}")
 
-    print("Day 09 - Part Two")
+    print("\nDay 09 - Part Two")
     print(f"\tLongest distance: {longest_dist}")

@@ -56,7 +56,8 @@ def find_suffix_number(puzzle_input: str, leading_zeros: int):
 
 def day04():
     puzzle_input = 'iwrupvqb'
-    print("\nDay 04 - Part One")
+    print("\n\nDay 04 - Part One")
     print('\t', find_suffix_number(puzzle_input, 5))
-    print("Day 04 - Part Two")
+
+    print("\nDay 04 - Part Two")
     print('\t', find_suffix_number(puzzle_input, 6))

@@ -64,8 +64,8 @@ def day01():
     """
     floorstring = read_string('2015/data/data_2015_01.txt')
     floor = find_floor(floorstring)
-    print("\nDay 01 - Part One")
+    print("\n\nDay 01 - Part One")
     print(f"\tFloor: {floor}")
     basement = first_basement(floorstring)
-    print("Day 01 - Part Two")
+    print("\nDay 01 - Part Two")
     print(f"\tFirst time in basement: {basement}")

@@ -139,10 +139,10 @@ def day03():
     move_instructions = read_string('2015/data/data_2015_03.txt')
     # print(f"Move instructions: {move_instructions}")
 
-    print("\nDay 03 - Part One")
+    print("\n\nDay 03 - Part One")
     presents_per_house = deliver_presents(move_instructions)
     print(f"\tNumber of houses with at least one present (Santa alone): {len(presents_per_house)}")
 
-    print("Day 03 - Part Two")
+    print("\nDay 03 - Part Two")
     presents_per_house = deliver_presents_with_robot(move_instructions)
     print(f"\tNumber of houses with at least one present (Santa + Robo-Santa): {len(presents_per_house)}")

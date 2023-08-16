@@ -57,8 +57,8 @@ def decode(code_string: str):
     memory_string = re.sub(r'\\x[0-9a-f][0-9a-f]', '.',
                            memory_string)  # Note: I would like to replace by the corresponding character but I did not find the way. chr('\\1') or chr(r'\1') or chr(int(r'\1')) do not work here
     memory_string = re.sub(r'\\(.)', r'\1', memory_string)
-    print(f'\n\t{code_string}\t{len(code_string)}',
-          f'\n\t{memory_string}\t{len(memory_string)}\t')
+    # print(f'\n\t{code_string}\t{len(code_string)}',
+    #      f'\n\t{memory_string}\t{len(memory_string)}\t')
     return memory_string
 
 
@@ -66,8 +66,8 @@ def encode(code_string: str):
     encoded_string = re.sub(r'\\', r'\\\\', code_string)
     encoded_string = re.sub('"', '\\"', encoded_string)
     encoded_string = '"' + encoded_string + '"'
-    print(f'\n\t{code_string}\t{len(code_string)}',
-          f'\n\t{encoded_string}\t{len(encoded_string)}\t')
+    # print(f'\n\t{code_string}\t{len(code_string)}',
+    #      f'\n\t{encoded_string}\t{len(encoded_string)}\t')
     return encoded_string
 
 
@@ -90,16 +90,16 @@ def count_chars_all_strings():
         encoded_chars = len(encoded_string)
         encoded_result += encoded_chars - code_chars
 
-        print(f'\n\t{code_string}\t{code_chars}',
-              f'\n\t{memory_string}\t{memory_chars}\t'
-              f'\n\t{encoded_string}\t{encoded_chars}\t')
+        # print(f'\n\t{code_string}\t{code_chars}',
+        #      f'\n\t{memory_string}\t{memory_chars}\t'
+        #      f'\n\t{encoded_string}\t{encoded_chars}\t')
     return decoded_result, encoded_result
 
 
 def day08():
     decoded_result, encoded_result = count_chars_all_strings()
-    print("\nDay 07 - Part One")
+    print("\n\nDay 08 - Part One")
     print(f"\tResult: {decoded_result}")
 
-    print("\nDay 07 - Part Two")
+    print("\nDay 08 - Part Two")
     print(f"\tResult: {encoded_result}")

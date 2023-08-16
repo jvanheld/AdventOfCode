@@ -80,10 +80,10 @@ def iterate_encode_number(input_string: str, times: int):
 def day10():
     puzzle_input = "1113222113"
 
-    print("Day 10 - Part One")
+    print("\n\nDay 10 - Part One")
     result1 = iterate_encode_number(input_string=puzzle_input, times=40)
-    print(f"\tResult lenght: {len(result1)}")
+    print(f"\tResult length: {len(result1)}")
 
-    print("Day 10 - Part Two")
+    print("\nDay 10 - Part Two")
     result2 = iterate_encode_number(input_string=result1, times=10)
-    print(f"\tResult lenght: {len(result2)}")
+    print(f"\tResult length: {len(result2)}")

@@ -218,7 +218,7 @@ def print_signals(G):
 def day07():
     # Read the network from puzzle input file
 
-    print("\nDay 07 - Part One")
+    print("\n\nDay 07 - Part One")
     G1 = read_network('2015/data/data_2015_07.txt')
 
     print("Viewing the network")

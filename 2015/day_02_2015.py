@@ -105,9 +105,9 @@ def day02():
     """
     Compute wrapping paper surface
     """
-    print("\nDay 02 - Part One")
+    print("\n\nDay 02 - Part One")
     dimensions = read_list('2015/data/data_2015_02.txt')
     total_surface, total_ribbon = calc_paper_and_ribbon(dimensions)
     print(f"\tTotal wrapping paper surface: {total_surface}")
-    print("Day 02 - Part Two")
+    print("\nDay 02 - Part Two")
     print(f"\tTotal ribbon length: {total_ribbon}")

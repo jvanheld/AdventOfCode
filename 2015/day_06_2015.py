@@ -150,7 +150,7 @@ def day06():
     #    print(instructions)
 
     # Apply the instructions
-    print("\nDay 06 - Part One")
+    print("\n\nDay 06 - Part One")
     for instruction in tqdm(instructions):
         instr = re.split('[ ,]', instruction.strip())  # [2, 3, 5, 6]
         left, top, right, bottom = [int(instr[i]) for i in (-5, -4, -2, -1)]

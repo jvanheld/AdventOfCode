@@ -19,7 +19,7 @@ from day_10_2015 import day10
 
 
 def main():
-    all_days = False
+    all_days = True
     if all_days: day01()
     if all_days: day02()
     if all_days: day03()
