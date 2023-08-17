@@ -39,15 +39,22 @@ For example, given the distances above, the longest route would be 982 via (for 
 
 What is the distance of the longest route?
 """
-
-import numpy as np
-import pandas as pd
+import itertools
 from math import factorial
+from time import time
+
+from tqdm import tqdm
+
 from util import read_list
-import pprint
 
 
 def read_distances(infile: str):
+    """
+    Parse the input file to instantiate the list (set) of cities and the distance matrix.
+
+    :param infile: a text file with one distance per row
+    :return: a set with the names of cities and a matrix with the distances between cities
+    """
     lines = read_list(infile)
     distances = dict()
     cities = set()
@@ -64,6 +71,13 @@ def read_distances(infile: str):
 
 
 def permutations(lst: list):
+    """
+    Compute the list of all permutations for the input set (list).
+    Note: inefficient recursive implementation, replaced by a call to itertools.permutations() in the subsequent code.
+
+    :param lst: list of items to be permuted
+    :return: a list of lists (one list per permutation)
+    """
     # print(f'input_set[0]: {input_set[0]}')
     # print(f'input_set[1:]: {input_set[1:]}')
 
@@ -85,6 +99,13 @@ def permutations(lst: list):
 
 
 def path_length(nodes, distances):
+    """
+    Compute the distance to travel across a list of cities (nodes) according to the matrix of distances between cities.
+
+    :param nodes: list of cities (graph nodes)
+    :param distances: matrix of distances between all pairs of cities
+    :return:
+    """
     path_len = 0
     for i in range(0, len(nodes) - 1):
         path_len += distances[nodes[i], nodes[i + 1]]
@@ -109,10 +130,11 @@ def day09():
     if nperm > max_perm:
         print(f"Number of permutation exceeeds {max_perm}")
         exit()
-
-    city_permutations = permutations(list(cities))
+    start = time()
+    city_permutations = itertools.permutations(list(cities))
+    print("Time taken for permutations:", time() - start)
     i = 0
-    for perm in city_permutations:
+    for perm in tqdm(city_permutations):
         i += 1
         l = path_length(perm, distances)
         if i == 1:
