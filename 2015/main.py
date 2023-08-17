@@ -5,7 +5,6 @@ https://adventofcode.com/2015
 
 """
 
-import cProfile
 from day_01_2015 import day01
 from day_02_2015 import day02
 from day_03_2015 import day03
@@ -19,7 +18,7 @@ from day_10_2015 import day10
 
 
 def main():
-    all_days = True
+    all_days = False
     if all_days: day01()
     if all_days: day02()
     if all_days: day03()
@@ -28,8 +27,8 @@ def main():
     if all_days: day06()
     if all_days: day07()
     if all_days: day08()
-    if all_days: day09()
-    day10()
+    day09()
+    if all_days: day10()
 
 
 print("\n\nAll days done\n\n")
