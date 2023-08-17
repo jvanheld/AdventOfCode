@@ -43,28 +43,29 @@ from tqdm import tqdm
 def encode_number(n_string: str):
     # print("n_string = " + n_string)
     result = ""
-    number = 0
+    char = 0
     count = 0
-    for i in range(0, len(n_string)):
+    for i in range(len(n_string)):
         if i == 0:
-            ## Initialise the current letter
-            number = int(n_string[i])
+            # Initialise the current letter
+            char = n_string[i]
             # print('\t\tinit')
 
-        if int(n_string[i]) == number:
-            ## Update counter of current letter
+        if n_string[i] == char:
+            # Update counter of current letter
             count += 1
             # print('\t\tincrease')
+
         else:
-            ## Update result string
-            result += str(count) + str(number)
+            # Update result string
+            result += str(count) + char
             # print('\t\tupdate')
 
             ## Initialize letter and counter
-            number = int(n_string[i])
+            char = n_string[i]
             count = 1
         # print(f'\t\ti = {i}\tnumber = {number}\tcount = {count}')
-    result += str(count) + str(number)
+    result += str(count) + char
     # print(f'\tresult\t{result}')
     return result
 
@@ -86,4 +87,8 @@ def day10():
 
     print("\nDay 10 - Part Two")
     result2 = iterate_encode_number(input_string=result1, times=10)
+    print(f"\tResult length: {len(result2)}")
+
+    print("\nDay 10 - Part Two")
+    result2 = iterate_encode_number(input_string=puzzle_input, times=50)
     print(f"\tResult length: {len(result2)}")
