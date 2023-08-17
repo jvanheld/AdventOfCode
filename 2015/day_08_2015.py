@@ -52,8 +52,7 @@ from util import read_list
 
 
 def decode(code_string: str):
-    memory_string = re.sub(r'^"', "", code_string)
-    memory_string = re.sub(r'"$', "", memory_string)
+    memory_string = code_string.strip('"')
     memory_string = re.sub(r'\\x[0-9a-f][0-9a-f]', '.',
                            memory_string)  # Note: I would like to replace by the corresponding character but I did not find the way. chr('\\1') or chr(r'\1') or chr(int(r'\1')) do not work here
     memory_string = re.sub(r'\\(.)', r'\1', memory_string)
