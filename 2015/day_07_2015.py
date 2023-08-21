@@ -59,6 +59,7 @@ What new signal is ultimately provided to wire a?
 """
 
 import math
+import os
 
 import matplotlib.pyplot as plt
 import networkx as nx
@@ -143,6 +144,12 @@ def shift_bits(bits: BitArray, shift: int, length=16):
 
 
 def calc_signal(G):
+    """
+    Compute the signal on each node of a graph
+
+    :param G: a graph with a subset of solved nodes and rules enabling to solve the other nodes based on their predecessors.
+    :return: a graph with the same structure but with the signal quantified on each node.
+    """
     solved_nodes, unsolved_nodes = init_solved_nodes(G)
     iteration = 0
     max_iteration = len(unsolved_nodes) + 1
@@ -215,6 +222,7 @@ def print_signals(G):
     for node_id in sorted(dict(G.nodes)):
         print(f"\t{node_id}\t{G.nodes[node_id]['signal']}\t{G.nodes[node_id]['info']}")
 
+
 def day07():
     # Read the network from puzzle input file
 
@@ -243,5 +251,5 @@ def day07():
 
 
 if __name__ == '__main__':
-    main()
-
+    os.chdir('..')
+    day07()
