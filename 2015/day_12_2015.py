@@ -30,24 +30,48 @@ Ignore any object (and all of its children) which has any property with the valu
 """
 
 import json
+import os
+import time
 from re import findall
 
 from util import read_list
 
 
+# import sys
+
+def traverse_json_data(json_data, current_sum):
+    if type(json_data) == dict:
+        if "red" not in json_data.values():
+            for item in json_data.values():
+                current_sum = traverse_json_data(item, current_sum)
+    elif type(json_data) == list:
+        for item in json_data:
+            current_sum = traverse_json_data(item, current_sum)
+    elif type(json_data) == int:
+        current_sum += json_data
+    return current_sum
+
+
 def day12():
-    data_file = "2015/data/data_2015_12.json"
-    lines = read_list(data_file)
-    data = "".join(lines)
+    data = "".join(read_list("2015/data/data_2015_12.json"))
     # print(data)
-    number_strings = findall(r'-*\d+', data)
-    numbers = list(map(int, number_strings))
-    print(numbers)
-    result = sum(numbers)
 
     print("\n\nDay 12 - Part One")
-    print(f"\tSum of numbers\t{result}")
+    start = time.time()
+    numbers = list(map(int, findall(r'-?\d+', data)))
+    # total = 0
+    # numbers = [(lambda x: total += int(x) for x in findall(r'-?\d+', data)]
+    print(f"\tSum of numbers\t{sum(numbers)}")
+    print(f"Elapsed: {time.time() - start}")
 
     print("\nDay 12 - Part Two")
+    # print(json.dumps(json_data, indent=2), file=sys.stderr)
+    start = time.time()
     json_data = json.loads(data)
-    print(json.dumps(json_data, indent=2))
+    print(f"\tSum of numbers with no red property: {traverse_json_data(json_data, 0)}")
+    print(f"Elapsed: {time.time() - start}")
+
+
+if __name__ == '__main__':
+    os.chdir('..')
+    day12()
