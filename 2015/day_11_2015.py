@@ -42,11 +42,20 @@ Given Santa's current password (your puzzle input), what should his next passwor
 
 Your puzzle input is vzbxkghb.
 
+--- Part Two ---
+Santa's password expired again. What's the next one?
+Your puzzle answer was vzcaabcc.
+Your puzzle input was vzbxkghb.
 
 """
 
+import os
+import sys
+
 import numpy as np
 from tqdm import tqdm
+
+from util import read_string
 
 
 def increment_password(password: str):
@@ -60,18 +69,19 @@ def increment_password(password: str):
     :return: a string with the incremented password
     """
     done = False
-    password = list(password)
-    i = len(password) - 1
+    # password = list(password)
+    ord_password = [ord(char) for char in password]
+    i = - 1
 
     while not done:
-        if password[i] == "z":
-            password[i] = "a"
+        if ord_password[i] == 122:  # ord("z") = 122
+            ord_password[i] = 97  # ord("a") = 97
             i -= 1
         else:
-            password[i] = chr(ord(password[i]) + 1)
+            ord_password[i] += 1
             done = True
 
-    return "".join(password)
+    return "".join([chr(number) for number in ord_password])
 
 
 def check_password(password: str):
@@ -93,8 +103,8 @@ def check_password(password: str):
     is_valid = True
 
     if len(password) != 8:
-        print(f"\tInvalid password: length = {len(password)}")
-        is_valid = False
+        print(f"\tInvalid password: length = {len(password)}", file=sys.stderr)
+        exit("Pas déconnner ")
 
     # Passwords may not contain the letters i, o, or l, as these letters can be mistaken for other characters and are
     # therefore confusing
@@ -174,7 +184,8 @@ def next_password(password: str):
 
 
 def day11():
-    puzzle_input = "vzbxkghb"
+    # puzzle_input = "vzbxkghb"
+    puzzle_input = read_string("2015/data/data_2015_11.txt").strip()
     print("\n\nDay 11 - Part One")
     password_day1 = next_password(puzzle_input)
     print(f"Puzzle input: {puzzle_input}\nNext password : {password_day1}")
@@ -182,3 +193,8 @@ def day11():
     print("\nDay 11 - Part Two")
     password_day2 = next_password(password_day1)
     print(f"Next password : {password_day2}")
+
+
+if __name__ == '__main__':
+    os.chdir('..')
+    day11()
