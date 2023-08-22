@@ -39,14 +39,22 @@ from util import read_list
 
 # import sys
 
-def traverse_json_data(json_data, current_sum):
+def collect_numbers(json_data, current_sum):
+    """
+    Traverse the tree parsed from the JSON file except for the branches having a "red" property, and collect the sumb
+    of all the numbers.
+
+    :param json_data: data extracted from the JSON file, describing a tree made of embedded of dictionaries and lists.
+    :param current_sum: ab ubteger with the sum of all the numbers found in the tree traversal.
+    :return:
+    """
     if type(json_data) == dict:
         if "red" not in json_data.values():
             for item in json_data.values():
-                current_sum = traverse_json_data(item, current_sum)
+                current_sum = collect_numbers(item, current_sum)
     elif type(json_data) == list:
         for item in json_data:
-            current_sum = traverse_json_data(item, current_sum)
+            current_sum = collect_numbers(item, current_sum)
     elif type(json_data) == int:
         current_sum += json_data
     return current_sum
@@ -59,16 +67,18 @@ def day12():
     print("\n\nDay 12 - Part One")
     start = time.time()
     numbers = list(map(int, findall(r'-?\d+', data)))
-    # total = 0
-    # numbers = [(lambda x: total += int(x) for x in findall(r'-?\d+', data)]
     print(f"\tSum of numbers\t{sum(numbers)}")
+    # total = 0
+    # [total := total + int(x) for x in findall(r'-?\d+', data)]
+    print(f"\tSum of numbers\t{total}")
+
     print(f"Elapsed: {time.time() - start}")
 
     print("\nDay 12 - Part Two")
     # print(json.dumps(json_data, indent=2), file=sys.stderr)
     start = time.time()
     json_data = json.loads(data)
-    print(f"\tSum of numbers with no red property: {traverse_json_data(json_data, 0)}")
+    print(f"\tSum of numbers with no red property: {collect_numbers(json_data, 0)}")
     print(f"Elapsed: {time.time() - start}")
 
 
