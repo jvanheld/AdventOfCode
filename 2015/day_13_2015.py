@@ -107,19 +107,24 @@ def calc_table_happiness(happiness_dict: dict, guest_order: list):
 
 def optimal_happiness(happiness_dict: dict):
     """
-    Find the optimal guest order by computing the score of all possible guest permutations.
+
+    Find the optimal guest order by computing the score of all the non-redundant guest permutations. Since the table
+    is round, any rotation of a given permutation would return the same result. We thus fix arbitrarily one guest as
+    first element in the list, and append every permutation of the n-1 remaining guests. The number of permutations
+    to be tested is thus (n-1)! rather than n!
 
     :param happiness_dict: dictionary with the hapiness units for each pair of guests
     :return: a list with the optimal order of guests, and the score of the corresponding table
     """
-    guests = happiness_dict.keys()
+    guests = list(happiness_dict.keys())
     best_score = 0
-    for perm in tqdm(permutations(guests)):
-        guest_oder = list(perm)
-        score = calc_table_happiness(happiness_dict, guest_oder)
+
+    for perm in tqdm(permutations(guests[1:])):
+        guest_order = [guests[0]] + list(perm)
+        score = calc_table_happiness(happiness_dict, guest_order)
         if score > best_score:
             best_score = score
-            best_order = guest_oder
+            best_order = guest_order
         # print(f"{perm}\t{score}")
     return best_order, best_score
 
