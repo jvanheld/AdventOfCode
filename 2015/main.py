@@ -21,7 +21,7 @@ from day_13_2015 import day13
 
 
 def main():
-    all_days = False
+    all_days = True
     if all_days: day01()
     if all_days: day02()
     if all_days: day03()
