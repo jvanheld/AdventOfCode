@@ -68,16 +68,12 @@ def day12():
     start = time.time()
     numbers = list(map(int, findall(r'-?\d+', data)))
     print(f"\tSum of numbers\t{sum(numbers)}")
-    # total = 0
-    # [total := total + int(x) for x in findall(r'-?\d+', data)]
-    print(f"\tSum of numbers\t{total}")
-
     print(f"Elapsed: {time.time() - start}")
 
     print("\nDay 12 - Part Two")
-    # print(json.dumps(json_data, indent=2), file=sys.stderr)
     start = time.time()
     json_data = json.loads(data)
+    # print(json.dumps(json_data, indent=2), file=sys.stderr)
     print(f"\tSum of numbers with no red property: {collect_numbers(json_data, 0)}")
     print(f"Elapsed: {time.time() - start}")
 
