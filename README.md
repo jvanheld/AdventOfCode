@@ -4,8 +4,8 @@ In order to put Python in practice, I am progressively implementing solutions fo
 
 ## Code
 
-| Year | Challenge | Solutions |
-|-------|--------------|----------------]
+| Year | Challenge                        | Solutions    |
+|------|----------------------------------|--------------|
 | 2015 | <https://adventofcode.com/2015/> | [2015](2015) |
 
 
