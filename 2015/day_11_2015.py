@@ -40,39 +40,40 @@ Given Santa's current password (your puzzle input), what should his next passwor
 
 
 
-Your puzzle input is vzbxkghb.
+Your puzzle input was vzbxkghb.
+
+Your puzzle answer was vzbxxyzz.
 
 --- Part Two ---
 Santa's password expired again. What's the next one?
+
 Your puzzle answer was vzcaabcc.
-Your puzzle input was vzbxkghb.
+
+
 
 """
 
 import os
 import sys
 
-import numpy as np
 from tqdm import tqdm
 
 from util import read_string
 
 
-def increment_password(password: str):
+def increment_password(ord_password: list):
     """
     Increment a given password.
 
     Incrementing is just like counting with numbers: xx, xy, xz, ya, yb, and so on. Increase the rightmost letter one
     step; if it was z, it wraps around to a, and repeat with the next letter to the left until one doesn't wrap around.
 
-    :param password: initial password
-    :return: a string with the incremented password
+    :param ord_password: initial password (as a list of unicode points)
+    :return: incremented password (as a list of unicode points)
     """
-    done = False
-    # password = list(password)
-    ord_password = [ord(char) for char in password]
-    i = - 1
 
+    done = False
+    i = - 1
     while not done:
         if ord_password[i] == 122:  # ord("z") = 122
             ord_password[i] = 97  # ord("a") = 97
@@ -81,10 +82,10 @@ def increment_password(password: str):
             ord_password[i] += 1
             done = True
 
-    return "".join([chr(number) for number in ord_password])
+    return ord_password
 
 
-def check_password(password: str):
+def check_password(ord_password: list):
     """
     Check if a given password complies to all the security requirements.
 
@@ -97,89 +98,112 @@ def check_password(password: str):
     - Passwords must contain at least two different, non-overlapping pairs of letters, like aa, bb, or zz.
 
 
-    :param password: input password
+    :param ord_password: input password
     :return: a Boolean value indicating if the input password is valid or not
     """
-    is_valid = True
+    checked = [True, False, False]
+    #    checked = list
 
-    if len(password) != 8:
-        print(f"\tInvalid password: length = {len(password)}", file=sys.stderr)
-        exit("Pas déconnner ")
+    if len(ord_password) != 8:
+        print(f"\tInvalid password: length = {len(ord_password)}", file=sys.stderr)
+        exit()
 
     # Passwords may not contain the letters i, o, or l, as these letters can be mistaken for other characters and are
     # therefore confusing
-    if any(x in password for x in ["i", "o", "l"]):
+    if any(x in ord_password for x in [105, 108, 111]):
         # print(f"\t{password} contains at least one forbidden letter (i, o or l)")
-        is_valid = False
+        checked[0] = False
 
     # Passwords must include one increasing straight of at least three letters, like abc, bcd, cde, and so on,
     # up to xyz. They cannot skip letters; abd doesn't count.
-    password_ord = list(map(ord, list(password)))
-    ord_diff = list(np.subtract(password_ord[1:], password_ord[:-1]))
-    if not any(ord_diff[i:i + 2] == [1, 1] for i in range(len(ord_diff) - 1)):
-        # print(f"\t{password} does not include increasing any straight of at least three letters")
-        is_valid = False
+    for code1, code2, code3 in zip(ord_password, ord_password[1:], ord_password[2:]):
+        if (code1 + 2 == code2 + 1) & (code2 + 1 == code3):
+            checked[1] = True
+            break
 
     # Passwords must contain at least two different, non-overlapping pairs of letters, like aa, bb, or zz
     pairs = 0
-    first_pair = -1
-    two_pairs = False
-    for i in range(len(ord_diff)):
-        if ord_diff[i] == 0:
-            if first_pair == -1:
-                first_pair = i
-            elif i - first_pair > 1:
-                two_pairs = True
-                # print(f"\ttwo_pairs\t{password}\t{first_pair}\t{i}")
-    if not two_pairs:
-        # print(f"\t{password} does not include two non-overlapping pairs of equal letters")
-        is_valid = False
+    skip_next = False
+    for code1, code2 in zip(ord_password, ord_password[1:]):
+        if code1 == code2:
+            if not skip_next:
+                pairs += 1
+            if pairs >= 2:
+                checked[2] = True
+                break
+            skip_next = True
+        else:
+            skip_next = False
 
-    return is_valid
+    return checked[0] & checked[1] & checked[2]
 
 
-def replace_forbidden(password: str):
+def replace_forbidden(ord_password: list):
     """
     Check if a password contains a forbidden letter, and if so replace it by the next letter + replace all the
     following letters by "a".
 
-    :param password: input password
+    :param ord_password: input password
     :return: a string with the fixed password
     """
     # First replace the forbidden letters (i, l, o) by the next one
     # This gains a huge time compared to a raw loop of increment/check until they are replaced, especially if the
     # forbidden letter are at the begining of the password
-    replacement = {"i": "j", "l": "m", "o": "p"}
-    w = len(password)
-    for a in replacement:
-        if a in password:
-            i = password.index(a)
-            password = password[0:i] + replacement[a]
-            if w - i > 1:
-                password = password + "a" * (w - i - 1)
-            # print(f"{password}\t{a}\ti={i}\tlen = {w}\t{password}")
+    replacement = {105: 106, 108: 109, 111: 112}
+    # ord_password = [replacement[ord_password[i]] if ord_password[i] in replacement
+    #                else ord_password[i]
+    #                for i in range(len(ord_password))]
 
-    return password
+    for char in replacement:
+        if char in ord_password:
+            pos = ord_password.index(char)
+            ord_password[pos] = replacement[char]
+            for i in range(pos + 1, len(ord_password)):
+                ord_password[i] = 97
+
+    # w = len(ord_password)
+    # for a in replacement:
+    #    if a in ord_password:
+    #        i = ord_password.index(a)
+    #        ord_password = ord_password[0:i] + replacement[a]
+    #        if w - i > 1:
+    #            ord_password = ord_password + "a" * (w - i - 1)
+    #        # print(f"{password}\t{a}\ti={i}\tlen = {w}\t{password}")
+
+    return ord_password
 
 
 def next_password(password: str):
     """
     Return the next valid password, taking into account the requirements.
 
-    :param password: input password
+    :param password: a string with the input password
     :return: a string with the next password
     """
 
-    password = replace_forbidden(password)
+    # Convert string to list of unicode points
+    ord_password = [ord(char) for char in password]
+
+    # Replace forbidden characters (i, l, o) in the password
+    ord_password = replace_forbidden(ord_password)
+
+    # Convert list of unicode points to string
+    password = [chr(number) for number in ord_password]
 
     # Increment the letters until a valid password is returned
     valid = False
     with tqdm() as pbar:
         while not valid:
-            password = increment_password(password)
-            password = replace_forbidden(password)
-            valid = check_password(password)
+            ord_password = increment_password(ord_password)
+
+            # Replace forbidden characters (i, l, o) in the password
+            ord_password = replace_forbidden(ord_password)
+
+            valid = check_password(ord_password)
             pbar.update()
+
+    # Convert list of unicode points to string
+    password = "".join([chr(number) for number in ord_password])
     return password
 
 
