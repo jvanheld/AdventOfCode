@@ -42,6 +42,17 @@ optimal, with a total change in happiness of 330.
 
 What is the total change in happiness for the optimal seating arrangement of the actual guest list?
 
+--- Part Two ---
+
+In all the commotion, you realize that you forgot to seat yourself. At this point, you're pretty apathetic toward the
+whole thing, and your happiness wouldn't really go up or down regardless of who you sit next to. You assume everyone
+else would be just as ambivalent about sitting next to you, too.
+
+So, add yourself to the list, and give all happiness relationships that involve you a score of 0.
+
+What is the total change in happiness for the optimal seating arrangement that actually includes yourself?
+
+
 
 """
 
@@ -116,8 +127,17 @@ def optimal_happiness(happiness_dict: dict):
 def day13():
     hu = read_happiness_units(infile="2015/data/data_2015_13.txt")
     best_order, best_score = optimal_happiness(hu)
+
+    print(f"\n\nDay 13 - Part One")
     print(f"Best score: {best_score}\tbest order: {best_order}")
 
+    print(f"\nDay 13 - Part Two")
+    best_score_with_me = 0
+    for guest1, guest2 in zip(best_order, best_order[1:] + [best_order[0]]):
+        score_with_me = best_score - hu[guest1][guest2] - hu[guest2][guest1]
+        if best_score_with_me < score_with_me:
+            best_score_with_me = score_with_me
+    print(f"Best score with me: {best_score_with_me}")
 
 if __name__ == '__main__':
     os.chdir('..')
