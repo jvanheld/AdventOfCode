@@ -53,10 +53,10 @@ from util import read_list
 
 def calc_distances(reindeers: dict, time: int):
     dist = dict()
-    print(f"\n\nComputing distances")
+    # print(f"\n\nComputing distances")
     for reindeer in reindeers:
         features = reindeers[reindeer]
-        print(f"\t{reindeer}\t{features}")
+        #print(f"\t{reindeer}\t{features}")
         remaining = time
         dist[reindeer] = 0
         while remaining > 0:
@@ -64,7 +64,7 @@ def calc_distances(reindeers: dict, time: int):
             dist[reindeer] += features["speed"] * runtime
             remaining -= runtime + features["rest_time"]
             # print(f"\t{reindeer}\tdist: {dist[reindeer]}\t{remaining}")
-    print(dist)
+    #print(dist)
     return dist
 
 
