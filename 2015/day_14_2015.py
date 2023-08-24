@@ -24,6 +24,9 @@ has only gotten 1056 km by that point). So, in this situation, Comet would win (
 Given the descriptions of each reindeer (in your puzzle input), after exactly 2503 seconds, what distance has the
 winning reindeer traveled?
 
+Your puzzle answer was 2640.
+
+
 --- Part Two ---
 
 Seeing how reindeer move in bursts, Santa decides he's not pleased with the old scoring system.
@@ -48,7 +51,73 @@ does the winning reindeer have?
 
 import os
 
+import numpy as np
+
 from util import read_list
+
+
+def calc_distance_profiles(reindeers: dict, time: int):
+    """
+    Compute the distance profile of a reindeer as a function of its running features (speed, run time, rest time).
+
+    :param reindeer: a two-keys dictionary containing, for each reindeer, a dictionary with its features:
+    "speed", "run_time" and "rest_time"
+    :param time: time of the race
+    :return: a numpy array with the distance done by each reindeer at each time point (second) of the race
+    """
+    dist_profiles = np.array([[0 for x in range(len(reindeers))] for y in range(time)])
+    # dist_profiles = [[0 for x in range(len(reindeers))] for y in range(time)]
+    # print(f"\n\nComputing distances")
+    for i, reindeer in enumerate(reindeers):
+        features = reindeers[reindeer]
+        # print(f"\t{i}\t{reindeer}\t{features}")
+        t = 0
+        while t < time:
+            run_time = min(features["run_time"], time - t)
+            # print(f"\ttime: {time}\tt: {t}\trun_time: {run_time}")
+            if run_time <= 0:
+                break
+            for j in range(1, run_time + 1):
+                dist_profiles[t + j - 1][i] = dist_profiles[t - 1][i] + j * features["speed"]
+            t += run_time
+            rest_time = min(features["rest_time"], time - t)
+            # print(f"\ttime: {time}\tt: {t}\trest_time: {rest_time}")
+            if rest_time <= 0:
+                break
+            for j in range(1, rest_time + 1):
+                dist_profiles[t + j - 1][i] = dist_profiles[t - 1][i]
+            t += rest_time
+    return dist_profiles
+
+
+def calc_score_profiles(dist_profiles):
+    """
+    Given a distance profile matrix, compute a matrix with the number of points accumulated by each reindeer
+    (columns) at each time point (rows).
+
+    :param dist_profiles: distance profile matrix (2D numpy array with one row per time point and one column per
+    reindeer)
+    :return: a 2D numpy array with the same dimensions as tue dist_profile
+    """
+
+    # Compute a 1D array with the max distance at each time point
+    max_per_time = dist_profiles.max(axis=1)
+
+    # Compute a 2D array indicating which reindeer (column) has the max distance at each time point (row)
+    nrow, ncol = np.shape(dist_profiles)
+    is_max_at_time = np.array([[0 for x in range(ncol)] for y in range(nrow)])
+    for i in range(nrow):
+        for j in range(ncol):
+            is_max_at_time[i][j] = dist_profiles[i][j] == max_per_time[i]
+
+    # Compute the cumulated score profiles
+    score_profiles = np.array([[0 for x in range(ncol)] for y in range(nrow)])
+    for j in range(ncol):
+        score_profiles[0][j] = is_max_at_time[0][j]
+        for i in range(1, nrow):
+            score_profiles[i][j] = score_profiles[i - 1][j] + is_max_at_time[i][j]
+
+    return score_profiles
 
 
 def calc_distances(reindeers: dict, time: int):
@@ -56,7 +125,7 @@ def calc_distances(reindeers: dict, time: int):
     # print(f"\n\nComputing distances")
     for reindeer in reindeers:
         features = reindeers[reindeer]
-        #print(f"\t{reindeer}\t{features}")
+        # print(f"\t{reindeer}\t{features}")
         remaining = time
         dist[reindeer] = 0
         while remaining > 0:
@@ -64,7 +133,7 @@ def calc_distances(reindeers: dict, time: int):
             dist[reindeer] += features["speed"] * runtime
             remaining -= runtime + features["rest_time"]
             # print(f"\t{reindeer}\tdist: {dist[reindeer]}\t{remaining}")
-    #print(dist)
+    # print(dist)
     return dist
 
 
@@ -77,10 +146,17 @@ def day14():
         reindeers[items[0]] = {"speed": int(items[3]),
                                "run_time": int(items[6]),
                                "rest_time": int(items[13])}
-    print(reindeers)
+    # print(reindeers)
     distances = calc_distances(reindeers, time=2503)
     print(f"\n\nDay 14 - Part One")
     print(f"\tBest distance\t{max(distances.values())}")
+
+    distance_profiles = calc_distance_profiles(reindeers, time=2503)
+    score_profiles = calc_score_profiles(distance_profiles)
+    print(f"\n\nDay 14 - Part Two")
+    # print(distance_profiles)
+    # print(score_profiles)
+    print(f"\tBest score\t{max(score_profiles[2502,])}")
 
 
 if __name__ == '__main__':
