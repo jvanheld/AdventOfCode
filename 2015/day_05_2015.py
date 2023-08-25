@@ -176,7 +176,7 @@ def check_rules_part_two(my_string: str):
 
 def day05():
     # Read puzzle input
-    all_test_strings = read_list('2015/data/data_2015_05.txt')
+    all_test_strings = read_list('2015/data/data_2015_day05.txt')
 
     print("\n\nDay 05 - Part One")
     all_rule_checks_part_one = list(map(check_rules_part_one, all_test_strings))

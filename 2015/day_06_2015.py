@@ -50,8 +50,8 @@ toggle 0,0 through 999,999 would increase the total brightness by 2000000.
 
 import re
 
-import numpy as np
 from tqdm import tqdm
+
 from util import read_list
 
 
@@ -146,7 +146,7 @@ def day06():
     # matrix = np.array([[0] * 1000] * 1000, dtype="int")
 
     # Read instruction file
-    instructions = read_list('2015/data/data_2015_06.txt')
+    instructions = read_list('2015/data/data_2015_day06.txt')
     #    print(instructions)
 
     # Apply the instructions

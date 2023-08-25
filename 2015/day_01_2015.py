@@ -62,7 +62,7 @@ def day01():
     """
     Find the floor for Santa Claus
     """
-    floorstring = read_string('2015/data/data_2015_01.txt')
+    floorstring = read_string('2015/data/data_2015_day01.txt')
     floor = find_floor(floorstring)
     print("\n\nDay 01 - Part One")
     print(f"\tFloor: {floor}")

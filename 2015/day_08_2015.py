@@ -48,6 +48,7 @@ puzzle) is 42 - 23 = 19.
 
 """
 import re
+
 from util import read_list
 
 
@@ -73,7 +74,7 @@ def encode(code_string: str):
 def count_chars_all_strings():
     decoded_result = 0
     encoded_result = 0
-    code_strings = read_list('2015/data/data_2015_08.txt')
+    code_strings = read_list('2015/data/data_2015_day08.txt')
     for code_string in code_strings:
         # Code string
         code_string = code_string.strip()

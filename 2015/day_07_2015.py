@@ -227,7 +227,7 @@ def day07():
     # Read the network from puzzle input file
 
     print("\n\nDay 07 - Part One")
-    G1 = read_network('2015/data/data_2015_07.txt')
+    G1 = read_network('2015/data/data_2015_day07.txt')
 
     print("Viewing the network")
     nx.draw_networkx(G1)
@@ -239,7 +239,7 @@ def day07():
     print(f"\tSignal in node a = ", G1.nodes['a']['signal'])
 
     print("\nDay 07 - Part One")
-    G2 = read_network('2015/data/data_2015_07.txt')
+    G2 = read_network('2015/data/data_2015_day07.txt')
     # Override b
     G2.nodes['b']['info'] = G1.nodes['a']['signal']
     G2.nodes['b']['signal'] = G1.nodes['a']['signal']

@@ -115,7 +115,7 @@ def path_length(nodes, distances):
 def day09():
     max_perm = 100000
 
-    cities, distances = read_distances("2015/data/data_2015_09.txt")
+    cities, distances = read_distances("2015/data/data_2015_day09.txt")
 
     # print("\nCities:")
     # print(sorted(cities))

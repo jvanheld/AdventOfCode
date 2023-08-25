@@ -209,7 +209,7 @@ def next_password(password: str):
 
 def day11():
     # puzzle_input = "vzbxkghb"
-    puzzle_input = read_string("2015/data/data_2015_11.txt").strip()
+    puzzle_input = read_string("2015/data/data_2015_day11.txt").strip()
     print("\n\nDay 11 - Part One")
     password_day1 = next_password(puzzle_input)
     print(f"Puzzle input: {puzzle_input}\nNext password : {password_day1}")

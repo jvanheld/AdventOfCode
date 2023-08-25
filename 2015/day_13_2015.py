@@ -130,7 +130,7 @@ def optimal_happiness(happiness_dict: dict):
 
 
 def day13():
-    hu = read_happiness_units(infile="2015/data/data_2015_13.txt")
+    hu = read_happiness_units(infile="2015/data/data_2015_day13.txt")
     best_order, best_score = optimal_happiness(hu)
 
     print(f"\n\nDay 13 - Part One")

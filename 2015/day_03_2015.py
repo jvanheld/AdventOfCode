@@ -40,6 +40,7 @@ from tqdm import tqdm
 
 from util import read_string
 
+
 def one_move(x: int, y: int, char: str):
     """
     Update latitude (X) or longitude (Y) depending on the move character.
@@ -136,7 +137,7 @@ def day03():
     """
     Deliver presents in an infinite array of houses
     """
-    move_instructions = read_string('2015/data/data_2015_03.txt')
+    move_instructions = read_string('2015/data/data_2015_day03.txt')
     # print(f"Move instructions: {move_instructions}")
 
     print("\n\nDay 03 - Part One")

@@ -18,6 +18,7 @@ from day_10_2015 import day10
 from day_11_2015 import day11
 from day_12_2015 import day12
 from day_13_2015 import day13
+from day_14_2015 import day14
 
 
 def main():
@@ -34,7 +35,8 @@ def main():
     if all_days: day10()
     if all_days: day11()
     if all_days: day12()
-    day13()
+    if all_days: day13()
+    day14()
 
 print("\n\nAll days done\n\n")
 

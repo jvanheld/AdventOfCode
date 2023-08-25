@@ -61,7 +61,7 @@ def collect_numbers(json_data, current_sum):
 
 
 def day12():
-    data = "".join(read_list("2015/data/data_2015_12.json"))
+    data = "".join(read_list("2015/data/data_2015_day12.json"))
     # print(data)
 
     print("\n\nDay 12 - Part One")

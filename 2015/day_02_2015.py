@@ -53,6 +53,7 @@ from tqdm import tqdm
 
 from util import read_list
 
+
 def calc_wrapping_paper_surface(l: int, w: int, h: int):
     """
     Compute the surface of wrapping paper required for a given package.
@@ -106,7 +107,7 @@ def day02():
     Compute wrapping paper surface
     """
     print("\n\nDay 02 - Part One")
-    dimensions = read_list('2015/data/data_2015_02.txt')
+    dimensions = read_list('2015/data/data_2015_day02.txt')
     total_surface, total_ribbon = calc_paper_and_ribbon(dimensions)
     print(f"\tTotal wrapping paper surface: {total_surface}")
     print("\nDay 02 - Part Two")
