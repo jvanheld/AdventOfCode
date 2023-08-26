@@ -1,5 +1,6 @@
 from unittest import TestCase
-from day_08_2015 import decode, encode
+
+from day08_2015 import decode, encode
 
 
 class Test(TestCase):

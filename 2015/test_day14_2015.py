@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from day_14_2015 import calc_distances, calc_distance_profiles, calc_score_profiles
+from day14_2015 import calc_distances, calc_distance_profiles, calc_score_profiles
 
 
 def create_test_dataset():

@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from day_06_2015 import init_matrix, print_matrix, rectangle_set_values, rectangle_toggle_values
+from day06_2015 import init_matrix, print_matrix, rectangle_set_values, rectangle_toggle_values
 
 
 class Test(TestCase):

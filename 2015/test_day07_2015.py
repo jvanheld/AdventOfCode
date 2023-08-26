@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from bitstring import BitArray
 
-from day_07_2015 import shift_bits
+from day07_2015 import shift_bits
 
 
 class Test(TestCase):

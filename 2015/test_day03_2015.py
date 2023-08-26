@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from day_03_2015 import deliver_presents, deliver_presents_with_robot
+from day03_2015 import deliver_presents, deliver_presents_with_robot
 
 
 class Test(TestCase):

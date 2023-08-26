@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from day_11_2015 import increment_password, check_password, next_password, replace_forbidden
+from day11_2015 import increment_password, check_password, next_password, replace_forbidden
 
 
 class Test(TestCase):

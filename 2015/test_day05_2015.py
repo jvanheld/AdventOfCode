@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from day_05_2015 import check_rules_part_one, check_rules_part_two
+from day05_2015 import check_rules_part_one, check_rules_part_two
 
 
 class Test(TestCase):
