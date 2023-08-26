@@ -1,5 +1,6 @@
 from unittest import TestCase
-from day_10_2015 import encode_number
+
+from day10_2015 import encode_number
 
 
 class Test(TestCase):

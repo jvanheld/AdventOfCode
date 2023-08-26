@@ -1,7 +1,7 @@
 import os
 from unittest import TestCase
 
-from day_13_2015 import read_happiness_units, calc_table_happiness, optimal_happiness
+from day13_2015 import read_happiness_units, calc_table_happiness, optimal_happiness
 
 
 class Test(TestCase):

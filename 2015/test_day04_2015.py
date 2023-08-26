@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from day_04_2015 import find_suffix_number
+from day04_2015 import find_suffix_number
 
 
 class Test(TestCase):

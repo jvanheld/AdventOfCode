@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from day_09_2015 import permutations
+from day09_2015 import permutations
 
 
 class Test(TestCase):
