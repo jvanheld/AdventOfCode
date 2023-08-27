@@ -25,8 +25,12 @@ Cinnamon: capacity 2, durability 3, flavor -2, texture -1, calories 3
 Then, choosing to use 44 teaspoons of butterscotch and 56 teaspoons of cinnamon (because the amounts of each
 ingredient must add up to 100) would result in a cookie with the following properties:
 
-- A capacity of 44*-1 + 56*2 = 68 - A durability of 44*-2 + 56*3 = 80 - A flavor of 44*6 + 56*-2 = 152 - A texture of
-44*3 + 56*-1 = 76 M ultiplying these together (68 * 80 * 152 * 76, ignoring calories for now) results in a total
+- A capacity of 44*-1 + 56*2 = 68
+- A durability of 44*-2 + 56*3 = 80
+- A flavor of 44*6 + 56*-2 = 152
+- A texture of 44*3 + 56*-1 = 76
+
+Multiplying these together (68 * 80 * 152 * 76, ignoring calories for now) results in a total
 score of 62842880, which happens to be the best score possible given these ingredients. If any properties had
 produced a negative total, it would have instead become zero, causing the whole score to multiply to zero.
 
@@ -36,6 +40,8 @@ can make?
 
 """
 import os
+
+import numpy as np
 
 from util import read_list
 
@@ -47,24 +53,33 @@ def read_data(infile: str):
     :param infile: path of the input file
     :return: a dictionary with ingredients as keys, and dictionaries of features as values
     """
-    food_features = dict()
+    values = dict()
+    ingredients = list()
+    features = list()
     instructions = read_list(infile)
-    for instr in instructions:
+    nb_features = 5
+    nb_ingredients = len(instructions)
+    values = np.array([[0 for _ in range(nb_features)] for _ in range(nb_ingredients)])
+    for i, instr in enumerate(instructions):
         # Butterscotch: capacity -1, durability -2, flavor 6, texture 3, calories 8
-        ingredient, features = instr.strip().split(sep=": ")
-        food_features[ingredient] = dict()
-        fields = features.split(sep=", ")
-        for field in fields:
+        ingredient, feature_values = instr.strip().split(sep=": ")
+        ingredients.append(ingredient)
+        fields = feature_values.split(sep=", ")
+        for j, field in enumerate(fields):
             key, value = field.split(sep=' ')
-            food_features[ingredient][key] = int(value)
-
-    return food_features
+            # print(f"{ingredient}\t{j}\t{key}\t{value}")
+            values[i][j] = int(value)
+            if i == 0:
+                features.append(key)
+    # print(f"Ingredients:\t{ingredients}")
+    # print(f"feature_names\t{features}")
+    # print("food_features\n", food_features)
+    return ingredients, features, values
 
 
 def day15():
-    food_features: dict = read_data('2015/data/data_2015_day15.txt')
-    print(food_features)
-
+    ingredients, features, values = read_data('2015/data/data_2015_day15.txt')
+    print(values)
 
 if __name__ == '__main__':
     os.chdir('..')
