@@ -37,6 +37,9 @@ produced a negative total, it would have instead become zero, causing the whole 
 Given the ingredients in your kitchen and their properties, what is the total score of the highest-scoring cookie you
 can make?
 
+Your puzzle answer was 13882464.
+
+
 --- Part Two ---
 
 Your cookie recipe becomes wildly popular! Someone asks if you can make another recipe that has exactly 500 calories
@@ -70,8 +73,9 @@ def read_data(infile: str):
     values = dict()
     ingredients = list()
     features = list()
+    calories = list()
     instructions = read_list(infile)
-    nb_features = 5
+    nb_features = 4
     nb_ingredients = len(instructions)
     values = np.array([[0 for _ in range(nb_features)] for _ in range(nb_ingredients)])
     for i, instr in enumerate(instructions):
@@ -82,13 +86,17 @@ def read_data(infile: str):
         for j, field in enumerate(fields):
             key, value = field.split(sep=' ')
             # print(f"{ingredient}\t{j}\t{key}\t{value}")
-            values[i][j] = int(value)
             if i == 0:
                 features.append(key)
+
+            if key == "calories":
+                calories.append(int(value))
+            else:
+                values[i][j] = int(value)
     # print(f"Ingredients:\t{ingredients}")
     # print(f"feature_names\t{features}")
     # print("food_features\n", food_features)
-    return ingredients, features, values
+    return ingredients, calories, features, values
 
 
 def all_partitions(n=100, groups=4):
@@ -118,20 +126,39 @@ def food_value(percentages, values):
 
 
 def day15():
-    ingredients, features, values = read_data('2015/data/data_2015_day15.txt')
-    # print(values)
+    ingredients, calories, features, values = read_data('2015/data/data_2015_day15.txt')
+    # print(f"\tvalues\t{values}")
+    # print(f"\tcalories\t{calories}")
     best_value = 0
-    values_no_cal = values[0:len(ingredients), 0:4]  # Values without the calories
+    best_value_500cal = 0
+    n_500cal = 0  # number of percentages with exactly 500 calories
+    # values_no_cal = values[0:len(ingredients), 0:4]  # Values without the calories
     # print(values_no_cal)
+
     for percentages in tqdm(all_partitions(n=100, groups=len(ingredients))):
+
         # print(percentages)
-        current_value = max(best_value, food_value(percentages, values_no_cal))
+        current_value = food_value(percentages, values)
         if current_value > best_value:
             best_value = current_value
             best_percentages = percentages
+
+        cal = np.matmul(percentages, calories)
+        if cal == 500:
+            n_500cal += 1
+            # print(f"\tpercentages: {percentages}\tcalories: {calories}\t{cal}")
+            if current_value > best_value_500cal:
+                best_value_500cal = current_value
+                best_percentages_500cal = percentages
+
     print(f"\n\nDay 15 - Part One")
     print(f"\tBest value: {best_value}")
     print(f"\tBest percentages: {best_percentages}")
+
+    print(f"\n\nDay 15 - Part Two")
+    print(f"\tNumber of recipes with 500 cal: {n_500cal}")
+    print(f"\tBest value for 500 cal: {best_value_500cal}")
+    print(f"\tBest percentages for 500 cal: {best_percentages_500cal}")
 
 
 if __name__ == '__main__':

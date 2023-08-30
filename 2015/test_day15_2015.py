@@ -41,6 +41,6 @@ class Test(TestCase):
                          all_partitions(n=2, groups=3))
 
     def test_quick_test(self):
-        ingredients, features, values = read_data('data/data_2015_day15.txt')
+        ingredients, calories, features, values = read_data('data/data_2015_day15.txt')
         percentages = [28, 32, 18, 22]
         print(food_value(percentages, values))
